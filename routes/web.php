@@ -50,4 +50,8 @@ Route::get('/route-belajar-kirim-data', function() {
 });
 Route::get('/produk', [ProdukController::class, 'index']);
 Route::get('/produk/create', [ProdukController::class, 'create']);
-Route::post('/produk/create', [ProdukController::class, 'store']);
+Route::post('/produk/create/{produk?}', [ProdukController::class, 'store']);
+Route::get('/produk/{produk}/edit', [ProdukController::class, 'edit'])->name('produk.edit');
+
+Route::get('/produk/{produk}/edit', [ProdukController::class, 'edit'])->name('produk.edit');
+Route::delete('/produk/{produk}', [ProdukController::class, 'destroy'])->name('produk.destroy');

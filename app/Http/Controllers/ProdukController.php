@@ -27,15 +27,30 @@ class ProdukController extends Controller
         return view('produk.form');
     }
 
-    public function store(Request $request) {
+    public function store(Request $request, Produk $produk = null) {
         $rules = [
             'kategori_produk' => 'required',
-            'harga_produk' => 'required|numeric|min:1000'
+            'nama_produk'     => 'required|string|max:255', 
+            'stok'            => 'required|integer|min:1',  
+            'harga_produk'    => 'required|numeric|min:1000'
         ];
 
         $request->validate($rules);
-        Produk::create($request->all());
+
+        Produk::updateOrCreate(['id' => @$produk->id], $request->all());
 
         return redirect('/produk')->with('success', 'Data berhasil disimpan');
+    }
+    
+    public function edit(Produk $produk)
+    {
+        return view('produk.form', compact('produk'));
+    }
+
+    // Fungsi destroy ditambahkan di sini
+    public function destroy(Produk $produk)
+    {
+        $produk->delete();
+        return redirect('/produk')->with('success', 'Data berhasil dihapus');
     }
 }

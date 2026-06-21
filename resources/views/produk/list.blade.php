@@ -36,6 +36,7 @@
                             <th>Nama Produk</th>
                             <th>Stok</th>
                             <th>Harga Produk</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -46,6 +47,14 @@
                             <td>{{ $item->nama_produk }}</td>
                             <td>{{ $item->stok }}</td>
                             <td>Rp{{ number_format($item->harga_produk, 0, ',', '.') }}</td>
+                            <td> 
+                                <a class="btn btn-warning btn-sm" href="{{ route('produk.edit', $item->id) }}">Edit</a>
+                                <form action="{{ route('produk.destroy', $item->id) }}" method="POST" class="d-inline formDelete">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-danger btn-sm" type="submit">Hapus</button>
+                                </form>
+                            </td>  
                         </tr>
                         @endforeach
                     </tbody>
@@ -57,5 +66,28 @@
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.4.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+   $(() => {
+       $("body").on("click", ".formDelete", (el) => {
+          el.preventDefault();
+
+          Swal.fire({
+              title: 'Perhatian',
+              text: "Apakah anda yakin ingin menghapus data ini?",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#d33',
+              cancelButtonColor: '#3085d6',
+              confirmButtonText: 'Ya',
+              cancelButtonText: 'Tidak'
+          }).then((result) => {
+              if(result.isConfirmed) $(el.currentTarget).submit();
+          })
+      })
+   })
+</script>
 </body>
 </html>
