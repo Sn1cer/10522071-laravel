@@ -6,10 +6,20 @@ use App\Models\Produk;
 
 class ProdukController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $produk = Produk::all();
-        return view('produk', compact('produk'));
+        $q = $request->get('q');
+        
+        $data['produk'] = Produk::where(function($query) use ($q) {
+            $query->where('kategori_produk', 'like', '%' . $q . '%');
+            $query->orWhere('nama_produk', 'like', '%' . $q . '%');
+            $query->orWhere('stok', 'like', '%' . $q . '%');
+            $query->orWhere('harga_produk', 'like', '%' . $q . '%');
+        })->paginate();
+
+        $data['q'] = $q;
+
+        return view('produk.list', $data);
     }
 
     public function create()
@@ -17,16 +27,15 @@ class ProdukController extends Controller
         return view('produk.form');
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $rules = [
             'kategori_produk' => 'required',
-            'nama_produk'     => 'required|string|max:255', 
-            'stok'            => 'required|integer|min:1',        
-            'harga_produk'    => 'required|numeric|min:1000',
+            'harga_produk' => 'required|numeric|min:1000'
         ];
-        $request->validate($rules);
 
-        return view('produk.show', ['data' => $request->all()]); // tantangan 3
+        $request->validate($rules);
+        Produk::create($request->all());
+
+        return redirect('/produk')->with('success', 'Data berhasil disimpan');
     }
 }
