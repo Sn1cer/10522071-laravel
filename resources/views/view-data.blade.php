@@ -1,0 +1,1 @@
+Belajar Laravel. Tulisan ini ditampilkan dari views. Halo {{ $nama }}, Jenis kelamin anda {{ $jk }}
