@@ -32,12 +32,25 @@ class ProdukController extends Controller
             'kategori_produk' => 'required',
             'nama_produk'     => 'required|string|max:255', 
             'stok'            => 'required|integer|min:1',  
-            'harga_produk'    => 'required|numeric|min:1000'
+            'harga_produk'    => 'required|numeric|min:1000',
         ];
+
+        $input = $request->all();
+
+        // Mengecek apakah ada file foto_produk yang diunggah
+        if ($request->hasFile('foto_produk')) {
+            // Mengambil nama asli file
+            $fileName = $request->foto_produk->getClientOriginalName();
+            // Menyimpan file ke storage (storage/app/produk)
+            $request->foto_produk->storeAs('public/produk', $fileName);
+            // Menambahkan nama file ke dalam array input untuk disimpan ke database
+            $input['foto_produk'] = $fileName;
+        }
 
         $request->validate($rules);
 
-        Produk::updateOrCreate(['id' => @$produk->id], $request->all());
+        // Menggunakan variabel $input alih-alih $request->all()
+        Produk::updateOrCreate(['id' => @$produk->id], $input);
 
         return redirect('/produk')->with('success', 'Data berhasil disimpan');
     }
@@ -47,7 +60,6 @@ class ProdukController extends Controller
         return view('produk.form', compact('produk'));
     }
 
-    // Fungsi destroy ditambahkan di sini
     public function destroy(Produk $produk)
     {
         $produk->delete();

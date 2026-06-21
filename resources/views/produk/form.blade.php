@@ -58,6 +58,13 @@
             </div>
 
             <div class="mb-3 row">
+                <label for="foto_produk" class="col-sm-2 col-form-label">Foto</label>
+                <div class="col-sm-5">
+                    <input type="file" class="form-control" name="foto_produk" id="foto_produk">
+                </div>
+            </div>
+
+            <div class="mb-3 row">
                 <div class="col-sm-2"></div>
                 <div class="col-sm-5">
                     <button type="submit" class="btn btn-primary">Simpan</button>

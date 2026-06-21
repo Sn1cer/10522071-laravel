@@ -32,7 +32,7 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Kategori Produk</th>
+                            <th>Foto Produk</th> <th>Kategori Produk</th>
                             <th>Nama Produk</th>
                             <th>Stok</th>
                             <th>Harga Produk</th>
@@ -43,6 +43,9 @@
                         @foreach($produk as $item)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
+                            <td>
+                                <img src="{{ Storage::url('produk/' . $item->foto_produk) }}" alt="Foto" width="100px" />
+                            </td>
                             <td>{{ $item->kategori_produk }}</td>
                             <td>{{ $item->nama_produk }}</td>
                             <td>{{ $item->stok }}</td>
