@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Belajar Laravel</title>
+    <title>Data Pelanggan</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 <body>
@@ -11,50 +11,58 @@
 <main style="margin-top: 70px">
     <div class="container">
         <div class="row">
+            <div class="col-lg-12 mb-3">
+                <h2>Data Pelanggan</h2>
+                <hr>
+            </div>
+            
             <div class="col-lg-4 mb-2">
                 <form action="" method="GET" role="search">
                     <div class="input-group">
-                        <input type="text" class="form-control" name="q" placeholder="cari" value="{{@$q}}">
+                        <input type="text" class="form-control" name="q" placeholder="Cari pelanggan..." value="{{@$q}}">
                     </div>
                 </form>
             </div>
+            
             @if(session('success'))
-                <div class="alert alert-success">
-                {{ session('success') }}
+                <div class="col-lg-12">
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
                 </div>
             @endif
 
             <div class="col-lg-8 text-end mb-2">
-                <a href="{{ url('produk/create') }}" class="btn btn-primary">Tambah</a>
+                <a href="{{ url('pelanggan/create') }}" class="btn btn-primary">Tambah Pelanggan</a>
             </div>
+            
             <div class="col-lg-12">
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Foto Produk</th>
-                            <th>Kategori Produk</th>
-                            <th>Nama Produk</th>
-                            <th>Stok</th>
-                            <th>Harga Produk</th>
+                            <th>Foto</th>
+                            <th>Nama Pelanggan</th>
+                            <th>Jenis Kelamin</th>
+                            <th>No. HP</th>
+                            <th>Email</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($produk as $item)
+                        @foreach($pelanggan as $item)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>
-                                <img src="{{ $item->foto_produk }}" alt="Foto" width="100px" />
+                                <img src="{{ $item->foto_pelanggan }}" alt="Foto Pelanggan" width="80px" class="img-thumbnail" />
                             </td>
-                            {{-- BARIS DI BAWAH INI YANG DIMODIFIKASI --}}
-                            <td>{{ $item->kategori->nama_kategori ?? '-' }}</td>
-                            <td>{{ $item->nama_produk }}</td>
-                            <td>{{ $item->stok }}</td>
-                            <td>Rp{{ number_format($item->harga_produk, 0, ',', '.') }}</td>
+                            <td>{{ $item->nama_lengkap }}</td>
+                            <td>{{ $item->jenis_kelamin }}</td>
+                            <td>{{ $item->nomor_hp }}</td>
+                            <td>{{ $item->alamat_email }}</td>
                             <td> 
-                                <a class="btn btn-warning btn-sm" href="{{ route('produk.edit', $item->id) }}">Edit</a>
-                                <form action="{{ route('produk.destroy', $item->id) }}" method="POST" class="d-inline formDelete">
+                                <a class="btn btn-warning btn-sm" href="{{ route('pelanggan.edit', $item->id) }}">Edit</a>
+                                <form action="{{ route('pelanggan.destroy', $item->id) }}" method="POST" class="d-inline formDelete">
                                     @csrf
                                     @method('DELETE')
                                     <button class="btn btn-danger btn-sm" type="submit">Hapus</button>
@@ -67,7 +75,9 @@
             </div>
         </div>
     </div>
-    {!! $produk->withQueryString()->links('pagination::bootstrap-5') !!}
+    
+    {!! $pelanggan->withQueryString()->links('pagination::bootstrap-5') !!}
+    
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
@@ -81,13 +91,13 @@
 
           Swal.fire({
               title: 'Perhatian',
-              text: "Apakah anda yakin ingin menghapus data ini?",
+              text: "Apakah anda yakin ingin menghapus data pelanggan ini?",
               icon: 'warning',
               showCancelButton: true,
               confirmButtonColor: '#d33',
               cancelButtonColor: '#3085d6',
-              confirmButtonText: 'Ya',
-              cancelButtonText: 'Tidak'
+              confirmButtonText: 'Ya, Hapus!',
+              cancelButtonText: 'Batal'
           }).then((result) => {
               if(result.isConfirmed) $(el.currentTarget).submit();
           })

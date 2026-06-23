@@ -60,6 +60,13 @@
             <div class="mb-3 row">
                 <label for="foto_produk" class="col-sm-2 col-form-label">Foto</label>
                 <div class="col-sm-5">
+                    @if(@$produk->foto_produk)
+                        <div class="mb-2">
+                            <img src="{{ asset('storage/produk/' . $produk->foto_produk) }}" alt="Foto Produk" class="img-thumbnail" width="150px">
+                            <br>
+                            <small class="text-muted">Foto saat ini</small>
+                        </div>
+                    @endif
                     <input type="file" class="form-control" name="foto_produk" id="foto_produk">
                 </div>
             </div>

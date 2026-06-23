@@ -2,11 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Models\Model;
+use App\Models\Produk;
+use App\Models\Kategori; 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Model>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Produk>
  */
 class ProdukFactory extends Factory
 {
@@ -18,10 +19,10 @@ class ProdukFactory extends Factory
     public function definition(): array
     {
         return [
-        'nama_produk' => fake()->firstName(),
-        'kategori_produk' => fake()->randomElement(['Baju', 'Celana', 'Sepatu']),
-        'stok' => fake()->randomNumber(2),
-        'harga_produk' => fake()->numberBetween(10000, 100000)
+            'nama_produk' => fake()->firstName(),
+            'id_kategori_produk' => Kategori::all()->random()->id,
+            'stok' => fake()->randomNumber(2),
+            'harga_produk' => fake()->numberBetween(10000, 100000),
         ];
     }
 }

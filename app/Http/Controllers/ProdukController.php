@@ -10,11 +10,12 @@ class ProdukController extends Controller
     {
         $q = $request->get('q');
         
+        // Menggunakan whereAny untuk pencarian yang lebih rapi
         $data['produk'] = Produk::where(function($query) use ($q) {
-            $query->where('kategori_produk', 'like', '%' . $q . '%');
-            $query->orWhere('nama_produk', 'like', '%' . $q . '%');
-            $query->orWhere('stok', 'like', '%' . $q . '%');
-            $query->orWhere('harga_produk', 'like', '%' . $q . '%');
+            $query->whereAny(['nama_produk', 'stok', 'harga_produk'], 'LIKE', '%' . $q . '%');
+            $query->orWhereHas('kategori', function ($queryKategori) use ($q) {
+                $queryKategori->where('nama_kategori', 'LIKE', '%' . $q . '%');
+            });
         })->paginate();
 
         $data['q'] = $q;
@@ -29,27 +30,23 @@ class ProdukController extends Controller
 
     public function store(Request $request, Produk $produk = null) {
         $rules = [
-            'kategori_produk' => 'required',
-            'nama_produk'     => 'required|string|max:255', 
-            'stok'            => 'required|integer|min:1',  
-            'harga_produk'    => 'required|numeric|min:1000',
+            'id_kategori_produk' => 'required', 
+            'nama_produk'        => 'required|string|max:255', 
+            'stok'               => 'required|integer|min:1',  
+            'harga_produk'       => 'required|numeric|min:1000',
+            'foto_produk'        => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ];
 
         $input = $request->all();
 
-        // Mengecek apakah ada file foto_produk yang diunggah
         if ($request->hasFile('foto_produk')) {
-            // Mengambil nama asli file
             $fileName = $request->foto_produk->getClientOriginalName();
-            // Menyimpan file ke storage (storage/app/produk)
             $request->foto_produk->storeAs('public/produk', $fileName);
-            // Menambahkan nama file ke dalam array input untuk disimpan ke database
             $input['foto_produk'] = $fileName;
         }
 
         $request->validate($rules);
 
-        // Menggunakan variabel $input alih-alih $request->all()
         Produk::updateOrCreate(['id' => @$produk->id], $input);
 
         return redirect('/produk')->with('success', 'Data berhasil disimpan');

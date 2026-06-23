@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\PelangganController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -55,3 +56,17 @@ Route::get('/produk/{produk}/edit', [ProdukController::class, 'edit'])->name('pr
 
 Route::get('/produk/{produk}/edit', [ProdukController::class, 'edit'])->name('produk.edit');
 Route::delete('/produk/{produk}', [ProdukController::class, 'destroy'])->name('produk.destroy');
+
+// Route untuk Pelanggan
+Route::get('/pelanggan', [PelangganController::class, 'index']);
+Route::get('/pelanggan/create', [PelangganController::class, 'create']);
+Route::post('/pelanggan/create/{pelanggan?}', [PelangganController::class, 'store']);
+Route::get('/pelanggan/{pelanggan}/edit', [PelangganController::class, 'edit'])->name('pelanggan.edit');
+Route::delete('/pelanggan/{pelanggan}', [PelangganController::class, 'destroy'])->name('pelanggan.destroy');
+
+Route::get('/pelanggan', [PelangganController::class, 'index']);
+Route::get('/pelanggan/create', [PelangganController::class, 'create']);
+Route::post('/pelanggan/create', [PelangganController::class, 'store']);
+Route::get('/pelanggan/{pelanggan}/edit', [PelangganController::class, 'edit'])->name('pelanggan.edit');
+Route::post('/pelanggan/create/{pelanggan}', [PelangganController::class, 'store']); // Untuk update
+Route::delete('/pelanggan/{pelanggan}', [PelangganController::class, 'destroy'])->name('pelanggan.destroy');
