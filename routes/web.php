@@ -68,5 +68,5 @@ Route::get('/pelanggan', [PelangganController::class, 'index']);
 Route::get('/pelanggan/create', [PelangganController::class, 'create']);
 Route::post('/pelanggan/create', [PelangganController::class, 'store']);
 Route::get('/pelanggan/{pelanggan}/edit', [PelangganController::class, 'edit'])->name('pelanggan.edit');
-Route::post('/pelanggan/create/{pelanggan}', [PelangganController::class, 'store']); // Untuk update
+Route::post('/pelanggan/create/{pelanggan}', [PelangganController::class, 'store']); 
 Route::delete('/pelanggan/{pelanggan}', [PelangganController::class, 'destroy'])->name('pelanggan.destroy');

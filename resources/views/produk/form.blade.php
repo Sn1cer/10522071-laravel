@@ -23,15 +23,17 @@
             @csrf
             
             <div class="mb-3 row">
-                <label for="kategori_produk" class="col-sm-2 col-form-label">Kategori Produk</label>
+                <label for="id_kategori_produk" class="col-sm-2 col-form-label">Kategori Produk</label>
                 <div class="col-sm-5">
-                    <select name="kategori_produk" id="kategori_produk" class="form-control">
-                        <option @selected(old('kategori_produk', @$produk->kategori_produk) == '') value="">
-                            - Pilih Kategori Produk -
-                        </option>
-                        <option @selected(old('kategori_produk', @$produk->kategori_produk) == 'Sepatu') value="Sepatu">Sepatu</option>
-                        <option @selected(old('kategori_produk', @$produk->kategori_produk) == 'Baju') value="Baju">Baju</option>
-                        <option @selected(old('kategori_produk', @$produk->kategori_produk) == 'Celana') value="Celana">Celana</option>
+                    <select name="id_kategori_produk" id="id_kategori_produk" class="form-control">
+                        <option value="">- Pilih Kategori Produk -</option>
+                        
+                        @foreach($kategori as $kat)
+                            <option value="{{ $kat->id }}" @selected(old('id_kategori_produk', @$produk->id_kategori_produk) == $kat->id)>
+                                {{ $kat->nama_kategori }}
+                            </option>
+                        @endforeach
+
                     </select>
                 </div>
             </div>

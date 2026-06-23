@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('produk', function (Blueprint $table) {
-            // Menambahkan kolom foto_produk dengan tipe string (varchar), maksimal 150 karakter, dan boleh kosong (nullable)
             $table->string('foto_produk', 150)->nullable();
         });
     }

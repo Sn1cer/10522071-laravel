@@ -11,7 +11,6 @@ class PelangganController extends Controller
     {
         $q = $request->get('q');
         
-        // SESUAIKAN NAMA KOLOM DISINI
         $data['pelanggan'] = Pelanggan::where(function($query) use ($q) {
             $query->where('nama_lengkap', 'like', '%' . $q . '%')
                   ->orWhere('nomor_hp', 'like', '%' . $q . '%')
@@ -30,12 +29,11 @@ class PelangganController extends Controller
 
     public function store(Request $request, Pelanggan $pelanggan = null) 
     {
-        // SESUAIKAN NAMA FIELD VALIDASI
         $rules = [
             'nama_lengkap'   => 'required|string|max:150',
             'jenis_kelamin'  => 'required',
             'nomor_hp'       => 'required|string|max:20',
-            'alamat_email'   => 'required|string|email|max:100', // Karena tipe unik email
+            'alamat_email'   => 'required|string|email|max:100', 
             'foto_pelanggan' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ];
 

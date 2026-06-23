@@ -11,7 +11,7 @@ class Kategori extends Model
 
     protected $table = 'kategori'; 
 
-    // Tambahkan baris ini agar fungsi create() diizinkan
+   
     protected $fillable = [
         'nama_kategori',
     ];

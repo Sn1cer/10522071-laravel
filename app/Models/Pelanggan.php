@@ -11,7 +11,6 @@ class Pelanggan extends Model
     
     protected $table = 'pelanggan';
     
-    // Sesuaikan dengan nama kolom di database Anda
     protected $fillable = [
         'nama_lengkap', 
         'jenis_kelamin',

@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use App\Models\Produk;
+use App\Models\Kategori; 
 
 class ProdukController extends Controller
 {
@@ -10,12 +12,13 @@ class ProdukController extends Controller
     {
         $q = $request->get('q');
         
-        // Menggunakan whereAny untuk pencarian yang lebih rapi
         $data['produk'] = Produk::where(function($query) use ($q) {
-            $query->whereAny(['nama_produk', 'stok', 'harga_produk'], 'LIKE', '%' . $q . '%');
-            $query->orWhereHas('kategori', function ($queryKategori) use ($q) {
-                $queryKategori->where('nama_kategori', 'LIKE', '%' . $q . '%');
-            });
+            if ($q) {
+                $query->whereAny(['nama_produk', 'stok', 'harga_produk'], 'LIKE', '%' . $q . '%');
+                $query->orWhereHas('kategori', function ($queryKategori) use ($q) {
+                    $queryKategori->where('nama_kategori', 'LIKE', '%' . $q . '%');
+                });
+            }
         })->paginate();
 
         $data['q'] = $q;
@@ -25,7 +28,8 @@ class ProdukController extends Controller
 
     public function create()
     {
-        return view('produk.form');
+        $data['kategori'] = Kategori::all();
+        return view('produk.form', $data);
     }
 
     public function store(Request $request, Produk $produk = null) {
@@ -37,6 +41,8 @@ class ProdukController extends Controller
             'foto_produk'        => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ];
 
+        $request->validate($rules);
+
         $input = $request->all();
 
         if ($request->hasFile('foto_produk')) {
@@ -45,8 +51,6 @@ class ProdukController extends Controller
             $input['foto_produk'] = $fileName;
         }
 
-        $request->validate($rules);
-
         Produk::updateOrCreate(['id' => @$produk->id], $input);
 
         return redirect('/produk')->with('success', 'Data berhasil disimpan');
@@ -54,7 +58,9 @@ class ProdukController extends Controller
     
     public function edit(Produk $produk)
     {
-        return view('produk.form', compact('produk'));
+        $data['kategori'] = Kategori::all();
+        $data['produk'] = $produk;
+        return view('produk.form', $data);
     }
 
     public function destroy(Produk $produk)

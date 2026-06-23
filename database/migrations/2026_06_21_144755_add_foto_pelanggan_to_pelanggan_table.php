@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('pelanggan', function (Blueprint $table) {
-            // Bagian ->after('no_hp') dihapus agar tidak mencari kolom yang tidak ada
             $table->string('foto_pelanggan', 150)->nullable(); 
         });
     }
