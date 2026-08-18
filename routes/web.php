@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\LoginController; 
 
 Route::get('/', function () {
     return view('welcome');
@@ -49,6 +50,7 @@ Route::get('/route-belajar-kirim-data', function() {
     $data['jk']   = 'Laki-Laki';
     return view('view-data', $data);
 });
+
 Route::get('/produk', [ProdukController::class, 'index']);
 Route::get('/produk/create', [ProdukController::class, 'create']);
 Route::post('/produk/create/{produk?}', [ProdukController::class, 'store']);
@@ -70,3 +72,9 @@ Route::post('/pelanggan/create', [PelangganController::class, 'store']);
 Route::get('/pelanggan/{pelanggan}/edit', [PelangganController::class, 'edit'])->name('pelanggan.edit');
 Route::post('/pelanggan/create/{pelanggan}', [PelangganController::class, 'store']); 
 Route::delete('/pelanggan/{pelanggan}', [PelangganController::class, 'destroy'])->name('pelanggan.destroy');
+
+// Route untuk Login & Autentikasi Google
+Route::get('/login', [LoginController::class, 'index']); // [cite: 76, 77]
+Route::get('/redirect/google', [LoginController::class, 'redirectToGoogle']); 
+Route::get('/redirect/google', [LoginController::class, 'redirectToGoogle']);
+Route::get('/callback/google', [LoginController::class, 'googleCallback']);
