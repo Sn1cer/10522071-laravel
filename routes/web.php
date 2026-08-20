@@ -5,11 +5,10 @@ use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\LoginController; 
 
+// Mengubah route '/' untuk menampilkan dashboard
 Route::get('/', function () {
-    return view('welcome');
+    return view('dashboard');
 });
-
-Route::get('/route-belajar-kirim-data', [ProdukController::class, 'index']);
 
 Route::get('/route-belajar', function () {
     echo 'Belajar Laravel. Tulisan ini ditampilkan dari routes';
@@ -51,11 +50,10 @@ Route::get('/route-belajar-kirim-data', function() {
     return view('view-data', $data);
 });
 
+// Route untuk Produk
 Route::get('/produk', [ProdukController::class, 'index']);
 Route::get('/produk/create', [ProdukController::class, 'create']);
 Route::post('/produk/create/{produk?}', [ProdukController::class, 'store']);
-Route::get('/produk/{produk}/edit', [ProdukController::class, 'edit'])->name('produk.edit');
-
 Route::get('/produk/{produk}/edit', [ProdukController::class, 'edit'])->name('produk.edit');
 Route::delete('/produk/{produk}', [ProdukController::class, 'destroy'])->name('produk.destroy');
 
@@ -66,15 +64,7 @@ Route::post('/pelanggan/create/{pelanggan?}', [PelangganController::class, 'stor
 Route::get('/pelanggan/{pelanggan}/edit', [PelangganController::class, 'edit'])->name('pelanggan.edit');
 Route::delete('/pelanggan/{pelanggan}', [PelangganController::class, 'destroy'])->name('pelanggan.destroy');
 
-Route::get('/pelanggan', [PelangganController::class, 'index']);
-Route::get('/pelanggan/create', [PelangganController::class, 'create']);
-Route::post('/pelanggan/create', [PelangganController::class, 'store']);
-Route::get('/pelanggan/{pelanggan}/edit', [PelangganController::class, 'edit'])->name('pelanggan.edit');
-Route::post('/pelanggan/create/{pelanggan}', [PelangganController::class, 'store']); 
-Route::delete('/pelanggan/{pelanggan}', [PelangganController::class, 'destroy'])->name('pelanggan.destroy');
-
 // Route untuk Login & Autentikasi Google
-Route::get('/login', [LoginController::class, 'index']); // [cite: 76, 77]
-Route::get('/redirect/google', [LoginController::class, 'redirectToGoogle']); 
+Route::get('/login', [LoginController::class, 'index']);
 Route::get('/redirect/google', [LoginController::class, 'redirectToGoogle']);
 Route::get('/callback/google', [LoginController::class, 'googleCallback']);

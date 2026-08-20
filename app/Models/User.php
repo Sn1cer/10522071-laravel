@@ -13,15 +13,23 @@ class User extends Authenticatable
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
+    // --- PENGATURAN PRIMARY KEY UNTUK EMAIL ---
+    protected $primaryKey = 'email';
+    public $incrementing = false;
+    protected $keyType = 'string';
+    // ------------------------------------------
+
     /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'email', 
+        'google_id', 
+        'name', 
+        'avatar', 
+        'role'
     ];
 
     /**
